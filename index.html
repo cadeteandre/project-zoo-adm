@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/style.css">
+    <title>Project Zoo-Administration</title>
+  </head>
+  <body>
+    <div id="app">
+      <section id="animalCreation">
+        <h3>Please add an animal to the zoo</h3>
+        <form onsubmit="return false">
+          <select id="selectAnimal">
+            <option value="Eagle">🦅 Eagle (Bird)</option>
+            <option value="Lion">🦁 Lion (Mammal)</option>
+            <option value="Duck">🦆 Duck (Bird)</option>
+            <option value="Elephant">🐘 Elephant (Mammal)</option>
+            <option value="Crocodile">🐊 Crocodile (Reptile)</option>
+            <option value="Turtle">🐢 Turtle (Reptile)</option>
+            <option value="Frog">🐸 Frog (Amphibian)</option>
+            <option value="Squid">🦑 Squid (Mollusk)</option>
+            <option value="Octopus">🐙 Octopus (Mollusk)</option>
+            <option value="Tiger">🐅 Tiger (Mammal)</option>
+            <option value="Swan">🦢 Swan (Bird)</option>
+            <option value="Camel">🐫 Camel (Mammal)</option>
+            <option value="Snake">🐍 Snake (Reptile)</option>
+            <option value="Monkey">🐒 Monkey (Mammal)</option>
+            <option value="Dolphin">🐬 Dolphin (Mammal)</option>
+            <option value="Shark">🦈 Shark (Fish)</option>
+            <option value="Trout">🐟 Trout (Fish)</option>
+            <option value="Pufferfish">🐡 Pufferfish (Fish)</option>
+          </select>
+          <input type="text" name="animalName" id="animalName">
+          <input type="number" name="yearOfBirth" id="yearOfBirth">
+          <select id="continent">
+            <option value="Asia">Asia</option>
+            <option value="North America">North America</option>
+            <option value="South America">South America</option>
+            <option value="Africa">Africa</option>
+            <option value="Europe">Europe</option>
+            <option value="Oceania">Oceania</option>
+            <option value="Antarctica">Antarctica</option>
+          </select>
+          <select id="specialNeeds">
+            <option value="Fresh Meat">Fresh meat</option>
+            <option value="High-siber diet">High-fiber diet</option>
+            <option value="diet of small fish and crustaceans">Diet of small fish and crustaceans</option>
+            <option value="Spacious tanks for swimming">Spacious tanks for swimming</option>
+            <option value="Large areas">Large areas</option>
+            <option value="Warm and humid environments">Warm and humid environments</option>
+          </select>
+          <select id="habitats">
+            <option value="0">Savannah Habitat</option>
+            <option value="1">Jungle Habitat</option>
+            <option value="2">Reptile House</option>
+            <option value="3">Aquarium</option>
+          </select>
+          <button id="createAnimal">Create animal</button>
+        </form>
+      </section>
+      <section id="animalHabitats">
+        <div class="habitat savannah">
+          <h3>Savannah Habitat</h3>
+        </div>
+        <div class="habitat jungle">
+          <h3>Jungle Habitat</h3>
+        </div>
+        <div class="habitat reptileHouse">
+          <h3>Reptile House</h3>
+        </div>
+        <div class="habitat aquarium">
+          <h3>Aquarium</h3>
+        </div>
+      </section>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

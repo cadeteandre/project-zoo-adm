@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  gap: 50px;
+  align-items: center;
+}
+
+#animalCreation {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #000;
+  border-radius: 10px;
+  background-color: darkolivegreen;
+  padding: 20px;
+}
+
+#animalCreation form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#animalHabitats {
+  /* padding: 10px; */
+  max-width: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.habitat {
+  width: 150px;
+  height: 150px;
+  border: 1px dotted #000;
+}
