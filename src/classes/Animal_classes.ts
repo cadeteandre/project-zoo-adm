@@ -24,7 +24,6 @@ export class Lion extends Animal2 {
     }
 }
 
-
 export class Elephant extends Animal2 {
     constructor(
         name: string,
