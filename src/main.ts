@@ -1,87 +1,451 @@
-import Animal from "./classes/Animal";
-import Enclosure from "./classes/Enclosure";
 import { EnclosureId } from './classes/Enclosure';
+import { createAnimal } from "./func/createAnimal";
+import { Animal2 } from "./classes/Animal";
+import Continent from './enums/Continent';
 
-//* ---------------- Creating the enclosures ----------------
-
-const allEnclosures: Enclosure[] = [];
-const createEnclosure = (enclosureId: EnclosureId, enclosureName: string, builtInYear: number) => {
-  const enclosureInstance = new Enclosure(enclosureId, enclosureName, builtInYear);
-  allEnclosures.push(enclosureInstance);
-}
-createEnclosure(EnclosureId.SavannahHabitat, 'Savannah Habitat', 2006);
-createEnclosure(EnclosureId.JungleHabitat, 'Jungle Habitat', 2004);
-createEnclosure(EnclosureId.AquaticHabitat, 'Aquarium', 2002);
-createEnclosure(EnclosureId.ReptileHouse, 'Reptile House', 2003);
-
-//* ---------------- Creating the animals ----------------
-
-const allAnimals: Animal[] = [];
-const animalCreator = (emoji: string, name: string, yearOfBirth: number, continents: string, specialNeeds: string, enclosureId: EnclosureId): Animal => {
-  const animalInstance = new Animal(emoji, name, yearOfBirth, continents, specialNeeds, enclosureId);
-  allAnimals.push(animalInstance);
-  return animalInstance;
-}
-animalCreator('🦅', 'Eagle', 2000, 'America', 'Fresh meat', EnclosureId.SavannahHabitat);
-animalCreator('🦁', 'Lion', 2006, 'Africa', 'Fresh meat', EnclosureId.SavannahHabitat);
-animalCreator('🦆', 'Duck', 2010, 'Europe', 'Diet of small fish and crustaceans', EnclosureId.JungleHabitat);
-animalCreator('🐘', 'Elephant', 2015, 'Asia', 'Large areas', EnclosureId.SavannahHabitat);
-animalCreator('🐊', 'Crocodile', 1998, 'Oceania', 'Warm and humid environments', EnclosureId.JungleHabitat);
-animalCreator('🐢', 'Turtle', 1980, 'South America', '', EnclosureId.JungleHabitat);
-animalCreator('🐸', 'Frog', 2020, 'North America', 'Warm and humid environments', EnclosureId.JungleHabitat);
-animalCreator('🦑', 'Squid', 2009, 'Europe', 'Diet of small fish and crustaceans', EnclosureId.AquaticHabitat);
-animalCreator('🐙', 'Octopus', 2010, 'Oceania', 'Diet of small fish and crustaceans', EnclosureId.AquaticHabitat);
-animalCreator('🐅', 'Tiger', 2016, 'Asia', 'Fresh meat', EnclosureId.JungleHabitat);
-animalCreator('🦢', 'Swan', 2015, 'Europe', '', EnclosureId.JungleHabitat);
-animalCreator('🐫', 'Camel', 2013, 'Africa', 'Large areas', EnclosureId.SavannahHabitat);
-animalCreator('🐍', 'Snake', 2020, 'South America', 'Warm and humid environments', EnclosureId.JungleHabitat);
-animalCreator('🐒', 'Monkey', 2010, 'Africa', '', EnclosureId.JungleHabitat);
-animalCreator('🐬', 'Dolphin', 2018, 'South America', 'Spacious tanks for swimming', EnclosureId.AquaticHabitat);
-animalCreator('🦈', 'Shark', 2019, 'North America', 'Spacious tanks for swimming', EnclosureId.AquaticHabitat);
-animalCreator('🐟', 'Trout', 2020, 'Europe', 'Spacious tanks for swimming', EnclosureId.AquaticHabitat);
-animalCreator('🐡', 'Pufferfish', 2021, 'Europe', 'Spacious tanks for swimming', EnclosureId.AquaticHabitat);
 
 //* ---------------- Selecting HTMLElements ----------------
 
 const selectAnimal = document.querySelector('#selectAnimal') as HTMLSelectElement;
 const inputAnimalName = document.querySelector('#animalName') as HTMLInputElement;
 const inputYearOfBirth = document.querySelector('#yearOfBirth') as HTMLInputElement;
-const continent = document.querySelector('#continent') as HTMLSelectElement;
-const specialNeeds = document.querySelector('#specialNeeds') as HTMLSelectElement;
-const habitats = document.querySelector('#habitats') as HTMLSelectElement;
+const selectContinent = document.querySelector('#continent') as HTMLSelectElement;
+const selectSpecialNeeds = document.querySelector('#specialNeeds') as HTMLSelectElement;
+const selectHabitat = document.querySelector('#habitats') as HTMLSelectElement;
 const createAnimalBtn = document.querySelector('#createAnimal') as HTMLButtonElement;
 const savannah = document.querySelector('.savannah') as HTMLDivElement;
 const jungle = document.querySelector('.jungle') as HTMLDivElement;
 const reptileHouse = document.querySelector('.reptileHouse') as HTMLDivElement;
 const aquarium = document.querySelector('.aquarium') as HTMLDivElement;
 
-//* ---------------- Activating the creatAanimalBtn ----------------
+//! ------------------------- corrected version -------------------------
 
-createAnimalBtn.addEventListener('click', () => {
-  allAnimals.forEach((animal) => {
-    if(animal._name === selectAnimal.value) {
-      animalCreator(animal._emoji, inputAnimalName.value, Number(inputYearOfBirth.value), continent.value, specialNeeds.value, Number(habitats.value));
+const allZooAnimals: Animal2[] = [];
+const savannahAnimals: Animal2[] = [];
+const jungleAnimals: Animal2[] = [];
+const reptileHouseAnimals: Animal2[] = [];
+const aquariumAnimals: Animal2[] = [];
+
+createAnimalBtn?.addEventListener("click", (event: Event) => {
+  // & event.preventDefault verhindert dass die Seite nicht neu geladen wird
+    event.preventDefault()
+
+    const type = selectAnimal.value
+    const name = inputAnimalName.value
+    const yearOfBirth = Number(inputYearOfBirth.value)
+    const continent = selectContinent.value
+    const specialNeeds = selectSpecialNeeds.value
+    const habitat = selectHabitat.value
+
+
+    const animal = createAnimal(type, name, yearOfBirth, Number(continent), specialNeeds, Number(habitat))
+
+
+    console.log(animal);
+
+    if (animal) {
+        if (!type || !name || !yearOfBirth || !continent || !specialNeeds || !habitat) {
+            console.error("All Fields are required");
+        } else {
+            allZooAnimals.push(animal)
+            console.log(allZooAnimals);
+        }
+        function chooseHabitat() {
+            if (animal?._enclosureId === EnclosureId.SavannahHabitat) {
+                savannahAnimals.push(animal)
+                console.log("SavannahAnimal", savannahAnimals);
+            }
+            if (animal?._enclosureId === EnclosureId.JungleHabitat) {
+                jungleAnimals.push(animal)
+                console.log("jungleAnimalArray", jungleAnimals);
+            }
+            if (animal?._enclosureId === EnclosureId.ReptileHouse) {
+                reptileHouseAnimals.push(animal)
+                console.log("ReptileAnimalArray", reptileHouseAnimals);
+            }
+            if (animal?._enclosureId === EnclosureId.AquaticHabitat) {
+                aquariumAnimals.push(animal)
+                console.log("AqueriumArray", aquariumAnimals);
+            }
     }
-  })
 
-  const emoji = document.createElement('span');
-  
-  switch(true) {
-    case (habitats.value === '0'):
-      emoji.textContent = allAnimals[allAnimals.length - 1]._emoji;
-      savannah.appendChild(emoji)
-      break;
-    case (habitats.value === '1'):
-      emoji.textContent = allAnimals[allAnimals.length - 1]._emoji;
-      jungle.appendChild(emoji);
-      break;
-    case (habitats.value === '2'):
-      emoji.textContent = allAnimals[allAnimals.length - 1]._emoji;
-      reptileHouse.appendChild(emoji);
-      break;
-    case (habitats.value === '3'):
-      emoji.textContent = allAnimals[allAnimals.length - 1]._emoji;
-      aquarium.appendChild(emoji);
-      break;
-  }
+    chooseHabitat()
+    displayAnimalInclosure()
+    }
 })
+
+
+function displayAnimalInclosure(): void {
+  // ! SAVANNAH
+  if (savannahAnimals && savannah) {
+      savannah.innerHTML = ""
+      savannahAnimals.forEach((animal: Animal2, index) => {
+          const emojiDiv = document.createElement("div") as HTMLDivElement
+          emojiDiv.className = "Emoji tooltip"
+          const emoji = document.createElement("div") as HTMLDivElement
+          emoji.textContent = animal._emoji
+          const currentYear = new Date().getFullYear() // 2024
+          const age = currentYear - animal._yearOfBirth
+
+          // ! tooltip
+
+          const tooltip = document.createElement("div") as HTMLDivElement
+          tooltip.className = "savannahtooltip tooltiptext"
+          tooltip.innerHTML = `
+          Name: ${animal._name}
+          Age: ${age}
+          Origin:${Continent[animal._continents]}
+          SpecialNeeds: ${animal._specialNeeds}
+          `
+
+          // !v1.
+          // Origin: ${continentFunc(animal._continent)}
+          // ! v2.
+          // Origin:${Continent[animal._continent]}
+
+
+          emojiDiv.appendChild(emoji)
+          emojiDiv.appendChild(tooltip)
+          savannah.appendChild(emojiDiv)
+
+          emojiDiv?.addEventListener("dblclick", () => {
+              savannahAnimals.splice(index, 1)
+              displayAnimalInclosure()
+              console.log("our Animal is removed", savannahAnimals);
+          })
+      })
+  }
+
+  // ! Jungle
+  if (jungle && jungleAnimals) {
+      jungle.innerHTML = "";
+      jungleAnimals.forEach((animal: Animal2, index) => {
+          const emojiDiv = document.createElement("div");
+          emojiDiv.className = "Emoji tooltip";
+          const emoji = document.createElement("div");
+          emoji.innerHTML = animal._emoji;
+          const currentYear = new Date().getFullYear();
+          const age = currentYear - animal._yearOfBirth;
+          //* Tooltipp
+          const tooltip = document.createElement("div");
+          tooltip.className = "jungletooltip  tooltiptext";
+          tooltip.innerHTML = `
+              Name: ${animal._name}<br>
+             Age: ${age}<br>
+              Origin: ${continentFunc(animal._continents)}<br>
+             Special Needs: ${animal._specialNeeds}
+             `;
+
+          emojiDiv.appendChild(emoji);
+          emojiDiv.appendChild(tooltip);
+
+          jungle.appendChild(emojiDiv);
+          //* delete by dblclick
+          emojiDiv.addEventListener("dblclick", () => {
+              jungleAnimals.splice(index, 1);
+              displayAnimalInclosure();
+              console.log("JungleHabitat after delete: ", jungleAnimals);
+          });
+      });
+  }
+
+
+  // ! Reptile
+  if (reptileHouse && reptileHouseAnimals) {
+      reptileHouse.innerHTML = "";
+      reptileHouseAnimals.forEach((animal: Animal2, index) => {
+          const emojiDiv = document.createElement("div");
+          emojiDiv.className = "Emoji tooltip";
+          const emoji = document.createElement("div");
+          emoji.innerHTML = animal._emoji;
+          const currentYear = new Date().getFullYear();
+          const age = currentYear - animal._yearOfBirth;
+          //* Tooltipp
+          const tooltip = document.createElement("div");
+          tooltip.className = "reptiletooltip  tooltiptext";
+          tooltip.innerHTML = `
+              Name: ${animal._name}<br>
+             Age: ${age}<br>
+              Origin: ${continentFunc(animal._continents)}<br>
+             Special Needs: ${animal._specialNeeds}
+             `;
+
+          emojiDiv.appendChild(emoji);
+          emojiDiv.appendChild(tooltip);
+          reptileHouse.appendChild(emojiDiv);
+
+          //* delete by dblclick
+          emojiDiv.addEventListener("dblclick", () => {
+              reptileHouseAnimals.splice(index, 1);
+              displayAnimalInclosure();
+              console.log("ReptileHabitat after delete: ", reptileHouseAnimals);
+          });
+      });
+  }
+
+  // ! Aquarium
+  if (aquarium && aquariumAnimals) {
+      aquarium.innerHTML = "";
+
+      aquariumAnimals.forEach((animal: Animal2, index) => {
+          const emojiDiv = document.createElement("div");
+          emojiDiv.className = "Emoji tooltip";
+          const emoji = document.createElement("div");
+          emoji.innerHTML = animal._emoji;
+          emojiDiv.appendChild(emoji);
+          const currentYear = new Date().getFullYear();
+          const age = currentYear - animal._yearOfBirth;
+          //* Tooltipp
+          const tooltip = document.createElement("div");
+          tooltip.className = "aquariumtooltip tooltiptext";
+          tooltip.innerHTML = `
+              Name: ${animal._name}<br>
+              Age: ${age}<br>
+              Origin: ${continentFunc(animal._continents)}<br>
+              Special Needs: ${animal._specialNeeds}
+             `;
+
+          emojiDiv.appendChild(emoji);
+          emojiDiv.appendChild(tooltip);
+          aquarium.appendChild(emojiDiv);
+
+          //* delete by dblclick
+          emojiDiv.addEventListener("dblclick", () => {
+              aquariumAnimals.splice(index, 1);
+              displayAnimalInclosure();
+              console.log("AquariumHabitat after delete: ", aquariumAnimals);
+          });
+      });
+  }
+
+
+}
+
+
+
+function continentFunc(continentEnum: number): string {
+  switch (continentEnum) {
+      case 0:
+          return "Antarctica"
+      case 1:
+          return "Australia"
+      case 2:
+          return "Asia"
+      case 3:
+          return "Africa"
+      case 4:
+          return "Europa"
+      case 5:
+          return "North America"
+      case 6:
+          return "South America"
+      default:
+          return "Unknown Continent"
+  }
+}
+
+// createAnimalBtn?.addEventListener('click', (event: Event) => {
+//   event.preventDefault();
+
+//   const type = selectAnimal.value;
+//   const name = inputAnimalName.value;
+//   const yearOfBirth = Number(inputYearOfBirth.value);
+//   const continent = selectContinent.value;
+//   const specialNeeds = selectSpecialNeeds.value;
+//   const habitat = selectHabitat.value;
+
+//   const animal = createAnimal(type, name, yearOfBirth, Number(continent), specialNeeds, Number(habitat));
+//   console.log(animal);
+
+//   if(animal) {
+//     if(
+//       !type ||
+//       !name ||
+//       !yearOfBirth ||
+//       !continent ||
+//       !specialNeeds ||
+//       !habitat
+//     ) {
+//       console.error('All fields are required')
+//     } else {
+//       allZooAnimals.push(animal);
+//       console.log(allZooAnimals)
+//     }
+
+//     function chooseHabitat() {
+//       if(type && name && yearOfBirth && continent && specialNeeds && habitat) {
+//         if(animal?._enclosureId === EnclosureId.SavannahHabitat) {
+//           savannahAnimals.push(animal);
+//           console.log('SavannaAnimal', savannahAnimals);
+//         }
+//         if(animal?._enclosureId === EnclosureId.JungleHabitat) {
+//           jungleAnimals.push(animal);
+//           console.log('JungleAnimal', jungleAnimals);
+//         }
+//         if(animal?._enclosureId === EnclosureId.ReptileHouse) {
+//           reptileHouseAnimals.push(animal);
+//           console.log('ReptileHouseAnimal', reptileHouseAnimals);
+//         }
+//         if(animal?._enclosureId === EnclosureId.AquaticHabitat) {
+//           aquariumAnimals.push(animal);
+//           console.log('AquariumAnimal', aquariumAnimals);
+//         }
+//       }
+//     }
+//     chooseHabitat();
+//     displayAnimalInclosure();
+//   }
+// })
+
+// function displayAnimalInclosure(): void {
+//   if(savannahAnimals && savannah) {
+//     savannah.innerHTML = '';
+    
+//     savannahAnimals.forEach((animal: Animal2, index) => {
+//       const emojiDiv = document.createElement('div') as HTMLDivElement;
+//       emojiDiv.className = 'Emoji tooltip';
+//       const emoji = document.createElement('div') as HTMLDivElement;
+//       emoji.textContent = animal._emoji;
+//       const currentYear = new Date().getFullYear(); //2024
+//       const age = currentYear - animal._yearOfBirth;
+
+//       //! tooltip
+
+//       const tooltip = document.createElement('div') as HTMLDivElement;
+//       tooltip.className = 'savannahtooltip tooltiptext';
+//       tooltip.innerHTML = `
+//       Name: ${animal._name}
+//       Age: ${age}
+//       Origin: ${continentFunc(animal._continents)}
+//       SpecialNeeds: ${animal._specialNeeds}
+//       `;
+
+//       emojiDiv.appendChild(emoji);
+//       emojiDiv.appendChild(tooltip);
+//       savannah.appendChild(emojiDiv);
+
+//       emojiDiv.addEventListener('dblclick', () => {
+//         savannahAnimals.splice(index, 1);
+//         displayAnimalInclosure();
+//         console.log('our Animal is removed', savannahAnimals);
+//       })
+//     })
+//   }
+//   if(jungleAnimals && jungle) {
+//     jungleAnimals.forEach((animal: Animal2, index) => {
+//       const emojiDiv = document.createElement('div') as HTMLDivElement;
+//       emojiDiv.className = 'Emoji tooltip';
+//       const emoji = document.createElement('div') as HTMLDivElement;
+//       emoji.textContent = animal._emoji;
+//       const currentYear = new Date().getFullYear(); //2024
+//       const age = currentYear - animal._yearOfBirth;
+
+//       //! tooltip
+
+//       const tooltip = document.createElement('div') as HTMLDivElement;
+//       tooltip.className = 'jungletooltip tooltiptext';
+//       tooltip.innerHTML = `
+//       Name: ${animal._name}
+//       Age: ${age}
+//       Origin: ${continentFunc(animal._continents)}
+//       SpecialNeeds: ${animal._specialNeeds}
+//       `;
+
+//       emojiDiv.appendChild(emoji);
+//       emojiDiv.appendChild(tooltip);
+//       jungle.appendChild(emojiDiv);
+
+//       //* delete by dblclick
+//       emojiDiv.addEventListener('dblclick', () => {
+//         jungleAnimals.splice(index, 1);
+//         displayAnimalInclosure();
+//         console.log('our Animal is removed', jungleAnimals);
+//       })
+//     })
+//   }
+//   if(reptileHouseAnimals && reptileHouse) {
+//     reptileHouseAnimals.forEach((animal: Animal2, index) => {
+//       const emojiDiv = document.createElement('div') as HTMLDivElement;
+//       emojiDiv.className = 'Emoji tooltip';
+//       const emoji = document.createElement('div') as HTMLDivElement;
+//       emoji.textContent = animal._emoji;
+//       const currentYear = new Date().getFullYear(); //2024
+//       const age = currentYear - animal._yearOfBirth;
+
+//       //! tooltip
+
+//       const tooltip = document.createElement('div') as HTMLDivElement;
+//       tooltip.className = 'reptiletooltip tooltiptext';
+//       tooltip.innerHTML = `
+//       Name: ${animal._name}
+//       Age: ${age}
+//       Origin: ${continentFunc(animal._continents)}
+//       SpecialNeeds: ${animal._specialNeeds}
+//       `;
+
+//       emojiDiv.appendChild(emoji);
+//       emojiDiv.appendChild(tooltip);
+//       reptileHouse.appendChild(emojiDiv);
+
+//       //* delete by dblclick
+//       emojiDiv.addEventListener('dblclick', () => {
+//         reptileHouseAnimals.splice(index, 1);
+//         displayAnimalInclosure();
+//         console.log('our Animal is removed', reptileHouseAnimals);
+//       })
+//     })
+//   }
+//   if(aquariumAnimals && aquarium) {
+//     aquariumAnimals.forEach((animal: Animal2, index) => {
+//       const emojiDiv = document.createElement('div') as HTMLDivElement;
+//       emojiDiv.className = 'Emoji tooltip';
+//       const emoji = document.createElement('div') as HTMLDivElement;
+//       emoji.textContent = animal._emoji;
+//       const currentYear = new Date().getFullYear(); //2024
+//       const age = currentYear - animal._yearOfBirth;
+
+//       //! tooltip
+
+//       const tooltip = document.createElement('div') as HTMLDivElement;
+//       tooltip.className = 'aquariumtooltip tooltiptext';
+//       tooltip.innerHTML = `
+//       Name: ${animal._name}
+//       Age: ${age}
+//       Origin: ${continentFunc(animal._continents)}
+//       SpecialNeeds: ${animal._specialNeeds}
+//       `;
+
+//       emojiDiv.appendChild(emoji);
+//       emojiDiv.appendChild(tooltip);
+//       aquarium.appendChild(emojiDiv);
+
+//       //* delete by dblclick
+//       emojiDiv.addEventListener('dblclick', () => {
+//         aquariumAnimals.splice(index, 1);
+//         displayAnimalInclosure();
+//         console.log('our Animal is removed', aquariumAnimals);
+//       })
+//     })
+//   }
+// }
+
+// function continentFunc(continentEnum: number): string {
+//   switch(continentEnum) {
+//     case 0:
+//       return 'Antarctica';
+//     case 1:
+//       return 'Australia';
+//     case 2:
+//       return 'Asia';
+//     case 3:
+//       return 'Africa';
+//     case 4:
+//       return 'Europe';
+//     case 5:
+//       return 'North America';
+//     case 6:
+//       return 'South America';
+//       default:
+//         return 'Unknown Continent'
+//   }
+// }

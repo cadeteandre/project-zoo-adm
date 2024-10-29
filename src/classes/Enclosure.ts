@@ -1,8 +1,8 @@
 export enum EnclosureId {
     SavannahHabitat,
     JungleHabitat,
-    AquaticHabitat,
-    ReptileHouse
+    ReptileHouse,
+    AquaticHabitat
 }
 
 class Enclosure {

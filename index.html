@@ -10,7 +10,7 @@
     <div id="app">
       <section id="animalCreation">
         <h3>Please add an animal to the zoo</h3>
-        <form onsubmit="return false">
+        <form>
           <select id="selectAnimal">
             <option value="Eagle">🦅 Eagle (Bird)</option>
             <option value="Lion">🦁 Lion (Mammal)</option>
@@ -34,13 +34,13 @@
           <input type="text" name="animalName" id="animalName">
           <input type="number" name="yearOfBirth" id="yearOfBirth">
           <select id="continent">
-            <option value="Asia">Asia</option>
-            <option value="North America">North America</option>
-            <option value="South America">South America</option>
-            <option value="Africa">Africa</option>
-            <option value="Europe">Europe</option>
-            <option value="Oceania">Oceania</option>
-            <option value="Antarctica">Antarctica</option>
+            <option value="0">Antarctica</option>
+            <option value="1">Australia</option>
+            <option value="2">Asia</option>
+            <option value="3">Africa</option>
+            <option value="4">Europe</option>
+            <option value="5">North America</option>
+            <option value="6">SouthAmerica</option>
           </select>
           <select id="specialNeeds">
             <option value="Fresh Meat">Fresh meat</option>
@@ -56,21 +56,25 @@
             <option value="2">Reptile House</option>
             <option value="3">Aquarium</option>
           </select>
-          <button id="createAnimal">Create animal</button>
+          <button type="button" id="createAnimal">Create animal</button>
         </form>
       </section>
       <section id="animalHabitats">
-        <div class="habitat savannah">
-          <h3>Savannah Habitat</h3>
+        <div class="habitat">
+          <h3>🌴 Savannah Habitat 🌴</h3>
+          <div class="savannah"></div>
         </div>
-        <div class="habitat jungle">
-          <h3>Jungle Habitat</h3>
+        <div class="habitat">
+          <h3>🌳 Jungle Habitat🌳</h3>
+          <div class="jungle"></div>
         </div>
-        <div class="habitat reptileHouse">
-          <h3>Reptile House</h3>
+        <div class="habitat">
+          <h3>🌵 Reptile House 🌵</h3>
+          <div class="reptileHouse"></div>
         </div>
-        <div class="habitat aquarium">
-          <h3>Aquarium</h3>
+        <div class="habitat">
+          <h3>🪸 Aquarium 🪸</h3>
+          <div class="aquarium"></div>
         </div>
       </section>
     </div>
